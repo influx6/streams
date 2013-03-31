@@ -1,0 +1,20 @@
+{
+  "name": "streams",
+  "version": "0.0.1",
+  "description": "a simple cross-platform(web,node) based stream implementation",
+  "main": "stream.js",
+  "scripts": {
+    "test": "node spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/influx6/stream.js"
+  },
+  "keywords": [
+    "stream",
+    ""
+  ],
+  "author": "Alexander Adeniyin Ewetumo",
+  "license": "Mit",
+  "readmeFilename": "README.md"
+}

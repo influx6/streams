@@ -1,0 +1,33 @@
+module.exports = function(jz,m){
+
+	m.verbose = false;
+	var sm = require('../lib/stream');
+
+	jz.add("testing stream core library",function(){
+
+		var stream;
+		this.beforeEach(function(){
+			stream = sm.make([
+				{name:'sam'},{name:'alex'},
+				{name:'felix'},{name:'josh'}
+			]);
+		});
+
+		this.it('create a new stream object',function(){
+			m.scoped(this).obj(stream).isValid();
+		});
+
+		this.it('can extend a stream object',function(){
+			var ex = sm.extend('ArrayStream');
+			m.scoped(this).obj(ex).isValid();
+		});
+
+		this.it('can receive a chunk from stream',function(){
+			var self = this;
+			stream.on('data',function(err,chunk){
+				m.scoped(self).obj(chunk).isValid();
+			})
+		});
+
+	});
+}
