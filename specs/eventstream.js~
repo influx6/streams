@@ -49,25 +49,23 @@ module.exports = function(ma,es){
   
   var sum = [];
   var reduceOne = es.EventStreams.reduceOne(one.stream,function(n){
-      console.log('got:',n);
-      return n.join('+');
+      val = eval(n.join('+'));
+      sum.push(val);
+      return val;
   },function(sm,st,sr){
       if(st.length >= 20) return true;
       return false;
   });
   
-  reduceOne.tell(function(m){
-    console.log('receieved:',m);
-  });
-  
 
-  var i = 20;
+  var i = 21;
   while(i--) stream.emit('change',i);
-
+  i = 21;
+  while(i--) stream.emit('change',i);
+  
+  
   reduceOne.tell(function(m){
-    console.log('receieved-second:',m);
+    console.log('receieved:',m,eval(sum.join('+')));
   });
-
-  var i = 1;
-  while(i++) stream.emit('change',i);
+         
 };

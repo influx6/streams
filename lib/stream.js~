@@ -140,7 +140,7 @@ require('em')('stream',function(e){
       this.closer.distribute();
       this.director.close();
       this.states.switchState('closed');
-      this.closer.close();
+      this.closer.closer();
     },
     whenClosed: function(fn){
       this.closer.add(fn);

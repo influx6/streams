@@ -49,7 +49,7 @@ module.exports = function(ma,es){
   
   var sum = [];
   var reduceOne = es.EventStreams.reduceOne(one.stream,function(n){
-      val = n.join('+')
+      val = eval(n.join('+'));
       sum.push(val);
       return val;
   },function(sm,st,sr){
@@ -60,16 +60,13 @@ module.exports = function(ma,es){
 
   var i = 21;
   while(i--) stream.emit('change',i);
-
-  reduceOne.tell(function(m){
-    console.log('receieved:',m,sum);
-  });
-
-  var i = 0;
-  while(i <= 22){
-    stream.emit('change',i);
-    i += 1;
-  }
+  i = 21;
+  while(i--) stream.emit('change',i);
   
-       
+  
+  reduceOne.tell(function(m){
+    console.log('receieved:',m,eval(sum.join('+')));
+  });
+  
+  stream.close();       
 };
