@@ -2,7 +2,7 @@
   "name": "streams",
   "version": "0.0.1",
   "description": "a simple cross-platform(web,node) based stream implementation",
-  "main": "stream.js",
+  "main": "./lib/stream.js",
   "scripts": {
     "test": "node spec"
   },
