@@ -2,22 +2,22 @@ module.exports = function(ma,ss){
   
   ma.scoped('low-level stream api');
   
-  var master = ss.CappedStreamble.make(3);
-  var stream = ss.Streamable.make();
-  var transf = ss.Streamable.make(function(n){
+  var master = ss.newMaxStream(4);
+  var stream = ss.newStream();
+  var transf = ss.newStream(function(n){
       return "<article>"+n+"<article>";
   });
   
-  master.bind(stream);
-  master.bind(transf);
-  
-  stream.tell(function(n){
+  ss.bindStream(master,stream);
+  ss.bindStream(master,transf);
+
+  ss.tellStream(stream,function(n){
     ma.scoped('simple in-out stream').obj(n).isNumber();
   });
-
-  transf.tell(function(n){
-    ma.scoped('transformative out stream').obj(n).isString();
+  ss.tellStream(transf,function(n){
+      ma.scoped('transformative out stream').obj(n).isString();
   });
+
   
   i = 10;
   while(--i){ 

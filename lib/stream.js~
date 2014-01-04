@@ -1,4 +1,4 @@
-require('em')('stream',function(e){
+require('em.js')('stream',function(e){
     
   var streams =  this.exports = {}, 
   ds = e('ds'),
@@ -140,7 +140,7 @@ require('em')('stream',function(e){
       this.closer.distribute();
       this.director.close();
       this.states.switchState('closed');
-      this.closer.closer();
+      this.closer.close();
     },
     whenClosed: function(fn){
       this.closer.add(fn);
