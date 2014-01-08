@@ -2,7 +2,6 @@ module.exports = function(ma,es,as){
   
   ma.scoped('high-level group-eventstream api');
   
-  var sp  = require('sparkflow').exports;
   var util = as.Utility;
   var stream = es.EventStreams.make('example');
   var b = stream.stream('b');
@@ -19,8 +18,14 @@ module.exports = function(ma,es,as){
   
   ready.setDefaultState('unlock');
 
-  var group = sp.Utils.massCombineUnOrder(function(streams,combine){
+  ma.scoped('ready stateManager');
+  ma.obj(ready).isValid();
+  ma.obj(ready.ready()).isTrue();
+  
+  var group = es.combineUnOrderByStreams(function(streams,combine){
     return ready.ready();
+  },function(r){
+    this.stream._massAdd(r);
   })(stream.stream('b'),stream.stream('d'),stream.stream('e'));
 
   b.transformer.add(function(i){
@@ -36,36 +41,23 @@ module.exports = function(ma,es,as){
     ready.switchState('unlock');
   });
   
+  ma.scoped('grouping streams');
   group.tell(function(n){
-      console.log('group:',n);
+      ma.obj(n).isValid();
   });
 
   
   b.emit('<article>');
   d.emit(1);
-  d.emit(2);
-  d.emit(3);
-  d.emit(4);
-  d.emit(4);
   b.emit('<article>');
-  d.emit(5);
+  d.emit(2);
   b.emit('</article>');
   b.emit('<article>');
-  d.emit(6);
-  e.emit('</article>');
-  b.emit('<article>');
-  d.emit(7);
-  e.emit('</article>');
-  d.emit(4);
-  d.emit(4);
+  d.emit(3);
   d.emit(4);
   e.emit('</article>');
+  b.emit(5);
+  b.emit('</article>');
 
-  b.emit('<article>');
-  d.emit('a');
-  d.emit('b');
-  d.emit('c');
-  e.emit('</article>');
 
-  d.emit('200');
 };

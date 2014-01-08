@@ -30,16 +30,16 @@ module.exports = function(ma,es){
   });
   
   combined.tell(function(k){
-    console.log('combined:',k);
+    ma.obj(k).isPrimitive();
   });
 
 
   combinedOrder.tell(function(k){
-    console.log('combinedOrder:',k);
+    ma.obj(k).isArray().length(3);
   });
 
   reduce.tell(function(k){
-    console.log('reduceOrder',k);
+    ma.obj(k).isPrimitive();
   });
 
 
@@ -53,19 +53,18 @@ module.exports = function(ma,es){
       sum.push(val);
       return val;
   },function(sm,st,sr){
-      if(st.length >= 20) return true;
+      if(st.length >= 5) return true;
       return false;
   });
   
 
-  var i = 21;
-  while(i--) stream.emit('change',i);
-  i = 21;
+  var i = 6;
   while(i--) stream.emit('change',i);
   
-  
+  ma.scoped('reduced streams');
   reduceOne.tell(function(m){
-    console.log('receieved:',m,eval(sum.join('+')));
+    ma.obj(m).isNumber();
+    ma.obj(eval(sum.join('+'))).isNumber().greaterThan(m);
   });
   
   stream.close();       

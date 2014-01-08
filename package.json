@@ -11,9 +11,6 @@
     "em.js":"0.x.x",
     "ds":"0.x.x"
   },
-  "dev-dependencies":{
-    "sparkflow":"0.x.x"
-  },
   "repository": {
     "type": "git",
     "url": "http://github.com/influx6/stream.js"
